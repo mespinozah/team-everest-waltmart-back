@@ -1,3 +1,5 @@
+"use strict";
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -10,6 +12,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors(CORS_CONFIG));
 
-app.use("/api", require("./routes/captcha.route"));
+app.use("/api/captcha", require("./routes/captcha.route"));
+app.use("/api/content", require("./routes/content-door.route"));
 
 serverStart(app);

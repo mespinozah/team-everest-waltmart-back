@@ -1,3 +1,5 @@
+"use strict";
+
 const { PORT } = require("../env/env");
 const { mongoStart } = require("./mongo.config");
 

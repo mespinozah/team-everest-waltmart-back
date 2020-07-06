@@ -1,24 +1,27 @@
-const express = require("express");
+"use strict";
 
+const express = require("express");
 const router = express.Router();
 
-router.use((req, res, next) => {
-  console.log("Time: ", Date.now());
-  next();
-});
+const {
+  getCaptcha,
+  validateCaptcha,
+} = require("../shared/services/captcha.service");
 
-router.get("/", (req, res) => {
-  res.status(200).json({
-    ok: true,
-    message: "todo pulento con el GET",
-  });
+router.get("/:door", (req, res) => {
+  const DOOR = req.params.door;
+
+  getCaptcha(DOOR)
+    .then((captcha) => res.status(captcha.status).json(captcha.data))
+    .catch((err) => res.status(err.status).json(err));
 });
 
 router.post("/", (req, res) => {
-  res.status(200).json({
-    ok: true,
-    message: "todo pulento con el POST",
-  });
+  const CAPTCHA = req.body;
+
+  validateCaptcha(CAPTCHA)
+    .then((isValid) => res.status(isValid.status).json(isValid.data))
+    .catch((err) => res.status(err.status).json(err));
 });
 
 module.exports = router;
